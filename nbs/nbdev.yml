@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "NeuralNetworks-Zero-To-Hero"
+  site-url: "https://anubhavmaity.github.io/NeuralNetworks-Zero-To-Hero"
+  description: "Notebooks/Docs I create when studying NN Zero to Hero taught by Andrej Karpathy"
+  repo-branch: main
+  repo-url: "https://github.com/anubhavmaity/NeuralNetworks-Zero-To-Hero"
