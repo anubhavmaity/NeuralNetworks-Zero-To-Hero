@@ -3,3 +3,4 @@ website:
     contents:
       - index.ipynb
       - 01_building_micrograd.ipynb
+      - 01_micrograd_exercises.ipynb
