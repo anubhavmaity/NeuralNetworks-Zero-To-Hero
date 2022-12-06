@@ -4,3 +4,4 @@ website:
       - index.ipynb
       - 01_building_micrograd.ipynb
       - 01_micrograd_exercises.ipynb
+      - 02_makemore.ipynb

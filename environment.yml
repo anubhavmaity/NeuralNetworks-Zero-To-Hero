@@ -1,4 +1,4 @@
-name: /Users/anubhavmaity/micromamba/envs/zhnn
+name: zhnn
 channels:
   - conda-forge
 dependencies:
