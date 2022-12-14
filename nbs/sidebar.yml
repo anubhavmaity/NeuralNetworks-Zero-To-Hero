@@ -2,10 +2,10 @@ website:
   sidebar:
     contents:
       - index.ipynb
-      - section: lesson1
+      - section: exercises
         contents:
-          - lesson1/01_building_micrograd.ipynb
-          - lesson1/01_micrograd_exercises.ipynb
-      - section: lesson2
+          - exercises/01_micrograd_exercises.ipynb
+      - section: lecture_notes
         contents:
-          - lesson2/02_makemore.ipynb
+          - lecture_notes/01_building_micrograd.ipynb
+          - lecture_notes/02_makemore.ipynb
