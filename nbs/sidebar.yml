@@ -5,7 +5,6 @@ website:
       - section: exercises
         contents:
           - exercises/01_micrograd_exercises.ipynb
-          - exercises/Untitled.ipynb
       - section: lecture_notes
         contents:
           - lecture_notes/01_building_micrograd.ipynb
