@@ -4,11 +4,12 @@ website:
       - index.ipynb
       - section: exercises
         contents:
-          - exercises/01_micrograd_exercises.ipynb
+          - exercises/01_micrograd_from_scratch_exercise.ipynb
+          - exercises/02_building_makemore_execise.ipynb
       - section: lecture_notes
         contents:
           - lecture_notes/01_building_micrograd.ipynb
-          - lecture_notes/02_makemore.ipynb
+          - lecture_notes/02_building_makemore.ipynb
       - section: tensor_warmup
         contents:
           - tensor_warmup/tensorqs_tutorial.ipynb
