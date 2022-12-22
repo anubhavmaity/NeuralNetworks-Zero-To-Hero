@@ -10,3 +10,6 @@ website:
         contents:
           - lecture_notes/01_building_micrograd.ipynb
           - lecture_notes/02_building_makemore.ipynb
+      - section: tensor_warmup
+        contents:
+          - tensor_warmup/tensorqs_tutorial.ipynb
