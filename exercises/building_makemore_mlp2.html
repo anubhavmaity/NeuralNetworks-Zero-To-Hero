@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>NeuralNetworks-Zero-To-Hero - Building Makemore MLP 2 Exercise</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="NeuralNetworks-Zero-To-Hero - Building Makemore MLP 2 Exercise">
+<meta property="og:description" content="The loss is not good. The network does not train at except the last layers">
+<meta property="og:site-name" content="NeuralNetworks-Zero-To-Hero">
+<meta name="twitter:title" content="NeuralNetworks-Zero-To-Hero - Building Makemore MLP 2 Exercise">
+<meta name="twitter:description" content="The loss is not good. The network does not train at except the last layers">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">NeuralNetworks-Zero-To-Hero</span>
+    </a>
+  </div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Building Makemore MLP 2 Exercise</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">NeuralNetworks-Zero-To-Hero</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">exercises</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/micrograd_from_scratch_exercise.html" class="sidebar-item-text sidebar-link">Micrograd from scratch exercise</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/building_makemore_execise.html" class="sidebar-item-text sidebar-link">Building makemore exercise</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/building_makemore_mlp_exercise.html" class="sidebar-item-text sidebar-link">Building Makemore MLP Exercise</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/building_makemore_mlp2.html" class="sidebar-item-text sidebar-link active">Building Makemore MLP 2 Exercise</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">lecture_notes</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lecture_notes/building_micrograd.html" class="sidebar-item-text sidebar-link">Mircrograd from scratch</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lecture_notes/building_makemore.html" class="sidebar-item-text sidebar-link">Building makemore</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lecture_notes/building_makemore_mlp.html" class="sidebar-item-text sidebar-link">Building makemore - MLP</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lecture_notes/building_makemore_mlp2.html" class="sidebar-item-text sidebar-link">Building makemore - Activations &amp; Gradients, BatchNorm</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#imports" id="toc-imports" class="nav-link active" data-scroll-target="#imports">Imports</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#e01" id="toc-e01" class="nav-link" data-scroll-target="#e01">E01</a>
+  <ul class="collapse">
+  <li><a href="#lets-see-the-activations-and-gradients" id="toc-lets-see-the-activations-and-gradients" class="nav-link" data-scroll-target="#lets-see-the-activations-and-gradients">Lets see the activations and gradients</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/anubhavmaity/NeuralNetworks-Zero-To-Hero/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Building Makemore MLP 2 Exercise</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<section id="imports" class="level2">
+<h2 class="anchored" data-anchor-id="imports">Imports</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plot</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> torch.Generator().manual_seed(<span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> <span class="bu">open</span>(<span class="st">'../data/names.txt'</span>, <span class="st">'r'</span>).read().splitlines()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>words[:<span class="dv">8</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>['emma', 'olivia', 'ava', 'isabella', 'sophia', 'charlotte', 'mia', 'amelia']</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>chars <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">list</span>(<span class="bu">set</span>(<span class="st">''</span>.join(words))))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>stoi <span class="op">=</span> {s: i<span class="op">+</span><span class="dv">1</span> <span class="cf">for</span> i, s <span class="kw">in</span> <span class="bu">enumerate</span>(chars)}</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>stoi[<span class="st">'.'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>itos <span class="op">=</span> {i:s <span class="cf">for</span> s, i <span class="kw">in</span> stoi.items()}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>32033</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_training_set(words, block_size, print_disabled<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    chars <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">list</span>(<span class="bu">set</span>(<span class="st">''</span>.join(words))))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    stoi <span class="op">=</span> {s: i<span class="op">+</span><span class="dv">1</span> <span class="cf">for</span> i, s <span class="kw">in</span> <span class="bu">enumerate</span>(chars)}</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    stoi[<span class="st">'.'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    itos <span class="op">=</span> {i:s <span class="cf">for</span> s, i <span class="kw">in</span> stoi.items()}</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    X, Y <span class="op">=</span> [], []</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> w <span class="kw">in</span> words:</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> print_disabled: <span class="bu">print</span>(w)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        context <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> block_size</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> ch <span class="kw">in</span> w <span class="op">+</span> <span class="st">'.'</span>:</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>            ix <span class="op">=</span> stoi[ch]</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>            X.append(context)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>            Y.append(ix)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> print_disabled: <span class="bu">print</span>(<span class="st">''</span>.join(itos[i] <span class="cf">for</span> i <span class="kw">in</span> context), <span class="st">'---&gt;'</span>, itos[ix])</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>            context <span class="op">=</span> context[<span class="dv">1</span>:] <span class="op">+</span> [ix] <span class="co"># crop and append</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> torch.tensor(X)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> torch.tensor(Y)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X, Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> generate_training_set(words, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>X.shape, Y.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(torch.Size([228146, 3]), torch.Size([228146]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_train_valid_test_split(words, block_size<span class="op">=</span><span class="dv">3</span>):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    random.seed(<span class="dv">42</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    random.shuffle(words)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    n1 <span class="op">=</span> <span class="bu">int</span>(<span class="fl">0.8</span><span class="op">*</span><span class="bu">len</span>(words))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    n2 <span class="op">=</span> <span class="bu">int</span>(<span class="fl">0.9</span><span class="op">*</span><span class="bu">len</span>(words))</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    Xtr, Ytr <span class="op">=</span> generate_training_set(words[:n1], block_size)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    Xdev, Ydev <span class="op">=</span> generate_training_set(words[n1:n2], block_size)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    Xte, Yte <span class="op">=</span> generate_training_set(words[n2:], block_size)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Xtr, Ytr, Xdev, Ydev, Xte, Yte</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Xtr, Ytr, Xdev, Ydev, Xte, Yte <span class="op">=</span> generate_train_valid_test_split(words, block_size<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Xtr.shape, Ytr.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(torch.Size([182625, 3]), torch.Size([182625]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Xdev.shape, Ydev.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(torch.Size([22655, 3]), torch.Size([22655]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Xte.shape, Yte.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(torch.Size([22866, 3]), torch.Size([22866]))</code></pre>
+</div>
+</div>
+</section>
+<section id="e01" class="level2">
+<h2 class="anchored" data-anchor-id="e01">E01</h2>
+<blockquote class="blockquote">
+<p>I did not get around to seeing what happens when you initialize all weights and biases to zero. Try this and train the neural net. You might think either that 1) the network trains just fine or 2) the network doesn’t train at all, but actually it is 3) the network trains but only partially, and achieves a pretty bad final performance.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Inspect the gradients and activations to figure out what is happening and why the network is only partially training, and what part is being trained exactly.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train(X, Y, epochs, bs <span class="op">=</span> <span class="dv">32</span>, context_length <span class="op">=</span> <span class="dv">3</span>, vocab_size <span class="op">=</span> <span class="dv">27</span>, embedding_size <span class="op">=</span> <span class="dv">10</span>, n_hidden <span class="op">=</span> <span class="dv">100</span>, print_at_every_epoch<span class="op">=</span><span class="dv">10</span>):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> torch.randn((vocab_size, embedding_size), generator<span class="op">=</span>g)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    layers <span class="op">=</span> [</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>        nn.Linear(context_length <span class="op">*</span> embedding_size, n_hidden), nn.BatchNorm1d(n_hidden), nn.Tanh(),</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        nn.Linear(n_hidden, n_hidden), nn.BatchNorm1d(n_hidden), nn.Tanh(),</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        nn.Linear(n_hidden, n_hidden), nn.BatchNorm1d(n_hidden), nn.Tanh(),</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>        nn.Linear(n_hidden, n_hidden), nn.BatchNorm1d(n_hidden), nn.Tanh(),</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>        nn.Linear(n_hidden, n_hidden), nn.BatchNorm1d(n_hidden), nn.Tanh(),</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>        nn.Linear(n_hidden, vocab_size), nn.BatchNorm1d(vocab_size)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    visualisation <span class="op">=</span> [<span class="op">-</span><span class="dv">1</span>] <span class="op">*</span> <span class="bu">len</span>(layers) </span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_activation(layer_num):</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> hook_fn(m, i, o): visualisation[layer_num] <span class="op">=</span> o </span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> hook_fn</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, layer <span class="kw">in</span> <span class="bu">enumerate</span>(layers):</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>        layer.register_forward_hook(get_activation(i))</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(layer, nn.Linear):</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>            nn.init.zeros_(layer.weight)</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>            nn.init.zeros_(layer.bias)</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Total number of layers are : '</span>, <span class="bu">len</span>(layers))</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> [C] <span class="op">+</span> [p <span class="cf">for</span> layer <span class="kw">in</span> layers <span class="cf">for</span> p <span class="kw">in</span> layer.parameters()]</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Total number of parameters are :'</span>, <span class="bu">sum</span>(p.nelement() <span class="cf">for</span> p <span class="kw">in</span> parameters))</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># set parameters to required grad</span></span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> p <span class="kw">in</span> parameters:</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>        p.requires_grad <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>    lossi <span class="op">=</span> []</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>    ud <span class="op">=</span> []</span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>        ix <span class="op">=</span> torch.randint(<span class="dv">0</span>, <span class="bu">len</span>(X), (bs,),  generator<span class="op">=</span>g)</span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>        Xb, Yb <span class="op">=</span> X[ix], Y[ix]</span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a>        emb <span class="op">=</span> C[Xb]</span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> emb.view(emb.shape[<span class="dv">0</span>], <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> layer <span class="kw">in</span> layers:</span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> layer(x)</span>
+<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a>            x.retain_grad()</span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> F.cross_entropy(x, Yb)</span>
+<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a><span class="co">#         for layer in layers:</span></span>
+<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a><span class="co">#             layer.retain_grad()</span></span>
+<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> p <span class="kw">in</span> parameters:</span>
+<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a>            p.retain_grad()</span>
+<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a>            p.grad <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
+<span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-63"><a href="#cb20-63" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a>        lr <span class="op">=</span> <span class="fl">0.1</span> <span class="cf">if</span> i <span class="op">&lt;=</span> <span class="dv">100_000</span> <span class="cf">else</span> <span class="fl">0.01</span> <span class="co"># lr decay</span></span>
+<span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-67"><a href="#cb20-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> p <span class="kw">in</span> parameters:</span>
+<span id="cb20-68"><a href="#cb20-68" aria-hidden="true" tabindex="-1"></a>            p.data <span class="op">+=</span> <span class="op">-</span>lr <span class="op">*</span> p.grad</span>
+<span id="cb20-69"><a href="#cb20-69" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-70"><a href="#cb20-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> print_at_every_epoch: </span>
+<span id="cb20-71"><a href="#cb20-71" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> i <span class="op">%</span> print_at_every_epoch <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb20-72"><a href="#cb20-72" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="ss">f'Epoch </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> Loss </span><span class="sc">{</span>loss<span class="sc">.</span>item()<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb20-73"><a href="#cb20-73" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a>        lossi.append(loss.item())</span>
+<span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> p <span class="kw">in</span> parameters:</span>
+<span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a>                grad_update_data_ratio <span class="op">=</span> (lr <span class="op">*</span> p.grad.std() <span class="op">/</span> p.data.std()).log10().item() </span>
+<span id="cb20-79"><a href="#cb20-79" aria-hidden="true" tabindex="-1"></a>                ud.append(grad_update_data_ratio)</span>
+<span id="cb20-80"><a href="#cb20-80" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-81"><a href="#cb20-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> C, layers, lossi, ud, visualisation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>C, layers, losses, uds, v <span class="op">=</span> train(Xtr, Ytr, <span class="dv">1000</span>, print_at_every_epoch<span class="op">=</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Total number of layers are :  17
+Total number of parameters are : 47551
+Epoch 0 Loss 3.295837163925171
+Epoch 100 Loss 3.115647554397583
+Epoch 200 Loss 2.883199453353882
+Epoch 300 Loss 2.8183982372283936
+Epoch 400 Loss 2.7845687866210938
+Epoch 500 Loss 2.8769757747650146
+Epoch 600 Loss 2.75632905960083
+Epoch 700 Loss 2.5977225303649902
+Epoch 800 Loss 2.8465943336486816
+Epoch 900 Loss 3.226971387863159</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>v[<span class="dv">15</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05],
+        [2.7777e-05, 3.3950e-05, 2.4400e-05, 1.9855e-05, 3.2619e-05, 7.8713e-06,
+         2.9720e-06, 1.8255e-05, 3.6090e-05, 1.3658e-05, 2.3523e-05, 3.3139e-05,
+         2.4819e-05, 3.1158e-05, 9.9366e-07, 3.1144e-05, 1.0995e-05, 3.5033e-06,
+         7.2170e-06, 2.8630e-05, 2.9825e-05, 2.5997e-05, 1.2910e-05, 7.2101e-06,
+         3.9578e-06, 2.8727e-05, 1.7435e-05]], grad_fn=&lt;AddmmBackward0&gt;)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>v[<span class="op">-</span><span class="dv">3</span>].grad</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        ...,
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>v[<span class="st">'Tanh()'</span>].grad</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        ...,
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(layers[<span class="dv">2</span>].parameters())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[]</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="at">@torch.no_grad</span>()</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_loss(model, embedding, X, Y):</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    emb <span class="op">=</span> embedding[X]</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    logits <span class="op">=</span> emb.view(emb.shape[<span class="dv">0</span>], <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> layer <span class="kw">in</span> model: logits <span class="op">=</span> layer(logits) </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> F.cross_entropy(logits, Y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>evaluate_loss(layers,C, Xtr, Ytr), evaluate_loss(layers,C, Xdev, Ydev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(tensor(2.8227), tensor(2.8212))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>emb <span class="op">=</span> C[Xdev]</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>logits <span class="op">=</span> emb.view(emb.shape[<span class="dv">0</span>], <span class="op">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The loss is not good. The network does not train at except the last layers</p>
+<section id="lets-see-the-activations-and-gradients" class="level3">
+<h3 class="anchored" data-anchor-id="lets-see-the-activations-and-gradients">Lets see the activations and gradients</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualize_histograms(layers, C, Xdev):</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    plot.figure(figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">4</span>))</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    legends <span class="op">=</span> []</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    emb <span class="op">=</span> C[Xdev]</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    logits <span class="op">=</span> emb.view(emb.shape[<span class="dv">0</span>], <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, layer <span class="kw">in</span> <span class="bu">enumerate</span>(layers[:<span class="op">-</span><span class="dv">1</span>]):</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(layer, nn.Tanh):</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>            t <span class="op">=</span> v[i]</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">'layer </span><span class="sc">%d</span><span class="st"> (</span><span class="sc">%10s</span><span class="st">): mean </span><span class="sc">%+f</span><span class="st">, std </span><span class="sc">%e</span><span class="st">'</span> <span class="op">%</span> (i, layer.__class__.<span class="va">__name__</span>, t.mean(), t.std()))</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>            hy, hx <span class="op">=</span> torch.histogram(t, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>            plot.plot(hx[:<span class="op">-</span><span class="dv">1</span>].detach(), hy.detach())</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>            legends.append(<span class="ss">f'layer </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>layer<span class="sc">.</span>__class__<span class="sc">.</span><span class="va">__name__</span><span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    plot.legend(legends)</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    plot.title(<span class="st">'gradient distribution'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>visualize_histograms(layers, C, Xdev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>layer 2 (      Tanh): mean +0.000000, std 0.000000e+00
+layer 5 (      Tanh): mean +0.000000, std 0.000000e+00
+layer 8 (      Tanh): mean +0.000000, std 0.000000e+00
+layer 11 (      Tanh): mean +0.000000, std 0.000000e+00
+layer 14 (      Tanh): mean +0.000000, std 0.000000e+00</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="04_building_makemore_mlp2_files/figure-html/cell-25-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>layers[<span class="dv">2</span>](C[Xdev]).grad</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/anubhavmaity/micromamba/envs/zhnn/lib/python3.7/site-packages/ipykernel_launcher.py:1: UserWarning: The .grad attribute of a Tensor that is not a leaf Tensor is being accessed. Its .grad attribute won't be populated during autograd.backward(). If you indeed want the .grad field to be populated for a non-leaf Tensor, use .retain_grad() on the non-leaf Tensor. If you access the non-leaf Tensor by mistake, make sure you access the leaf Tensor instead. See github.com/pytorch/pytorch/pull/30531 for more informations. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/build/aten/src/ATen/core/TensorBody.h:485.)
+  """Entry point for launching an IPython kernel.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualize_histograms(layers, C, Xdev):</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    plot.figure(figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">4</span>))</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    legends <span class="op">=</span> []</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    emb <span class="op">=</span> C[Xdev]</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    logits <span class="op">=</span> emb.view(emb.shape[<span class="dv">0</span>], <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, layer <span class="kw">in</span> <span class="bu">enumerate</span>(layers[:<span class="op">-</span><span class="dv">1</span>]):</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(layer, nn.Tanh):</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>            t <span class="op">=</span> layer.grad</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">'layer </span><span class="sc">%d</span><span class="st"> (</span><span class="sc">%10s</span><span class="st">): mean </span><span class="sc">%+f</span><span class="st">, std </span><span class="sc">%e</span><span class="st">'</span> <span class="op">%</span> (i, layer.__class__.<span class="va">__name__</span>, t.mean(), t.std()))</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>            hy, hx <span class="op">=</span> torch.histogram(t, density<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>            plot.plot(hx[:<span class="op">-</span><span class="dv">1</span>].detach(), hy.detach())</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>            legends.append(<span class="ss">f'layer </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>layer<span class="sc">.</span>__class__<span class="sc">.</span><span class="va">__name__</span><span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>    plot.legend(legends)</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>    plot.title(<span class="st">'gradient distribution'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>visualize_histograms(layers, C, Xdev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>AttributeError: 'Tanh' object has no attribute 'grad'</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>&lt;Figure size 2000x400 with 0 Axes&gt;</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
