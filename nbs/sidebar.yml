@@ -6,10 +6,19 @@ website:
         contents:
           - exercises/01_micrograd_from_scratch_exercise.ipynb
           - exercises/02_building_makemore_execise.ipynb
+          - exercises/03_building_makemore_mlp_exercise.ipynb
+          - exercises/04_building_makemore_mlp2.ipynb
+          - exercises/05_wavenet_exercise-1.ipynb
+          - exercises/05_wavenet_exercise.ipynb
       - section: lecture_notes
         contents:
           - lecture_notes/01_building_micrograd.ipynb
           - lecture_notes/02_building_makemore.ipynb
+          - lecture_notes/03_building_makemore_MLP.ipynb
+          - lecture_notes/04_building_makemore_mlp2.ipynb
+          - lecture_notes/05_becoming_backprop_ninja.ipynb
+          - lecture_notes/06_building_a_wavenet.ipynb
+          - lecture_notes/07_lets_build_gpt.ipynb
       - section: tensor_warmup
         contents:
           - tensor_warmup/tensorqs_tutorial.ipynb
