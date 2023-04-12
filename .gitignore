@@ -1,6 +1,6 @@
 _docs/
 _proc/
-.ipynb_checkpoints
+.ipynb_checkpoints/
 
 *.bak
 .gitattributes
