@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>NeuralNetworks-Zero-To-Hero - Building makemore exercise</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="NeuralNetworks-Zero-To-Hero - Building makemore exercise">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://anubhavmaity.github.io/NeuralNetworks-Zero-To-Hero/exercises/02_building_makemore_execise_files/figure-html/cell-65-output-1.png">
+<meta property="og:site-name" content="NeuralNetworks-Zero-To-Hero">
+<meta property="og:image:height" content="453">
+<meta property="og:image:width" content="567">
+<meta name="twitter:title" content="NeuralNetworks-Zero-To-Hero - Building makemore exercise">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://anubhavmaity.github.io/NeuralNetworks-Zero-To-Hero/exercises/02_building_makemore_execise_files/figure-html/cell-65-output-1.png">
+<meta name="twitter:image-height" content="453">
+<meta name="twitter:image-width" content="567">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">NeuralNetworks-Zero-To-Hero</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools ms-auto">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../exercises/micrograd_from_scratch_exercise.html">exercises</a></li><li class="breadcrumb-item"><a href="../exercises/building_makemore_execise.html">Building makemore exercise</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralNetworks-Zero-To-Hero</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">exercises</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/micrograd_from_scratch_exercise.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Micrograd from scratch exercise</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/building_makemore_execise.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Building makemore exercise</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/building_makemore_mlp_exercise.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Building Makemore MLP Exercise</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/building_makemore_mlp2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Building Makemore MLP 2 Exercise</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/wavenet_exercise-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wavenet Hyperparameter Tuning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/wavenet_exercise.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wavenet Hyperparameter Tuning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">lecture_notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lecture_notes/building_micrograd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mircrograd from scratch</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lecture_notes/building_makemore.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Building makemore</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lecture_notes/building_makemore_mlp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Building makemore - MLP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lecture_notes/building_makemore_mlp2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Building makemore - Activations &amp; Gradients, BatchNorm</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lecture_notes/becoming_backprop_ninja.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lesson 5: Becoming a Backprop Ninja</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../lecture_notes/building_a_wavenet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Building a WaveNet</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#imports" id="toc-imports" class="nav-link active" data-scroll-target="#imports">Imports</a></li>
+  <li><a href="#e01" id="toc-e01" class="nav-link" data-scroll-target="#e01">E01</a>
+  <ul class="collapse">
+  <li><a href="#counting" id="toc-counting" class="nav-link" data-scroll-target="#counting">Counting</a></li>
+  <li><a href="#nn" id="toc-nn" class="nav-link" data-scroll-target="#nn">NN</a></li>
+  <li><a href="#prediction" id="toc-prediction" class="nav-link" data-scroll-target="#prediction">Prediction</a></li>
+  </ul></li>
+  <li><a href="#e02" id="toc-e02" class="nav-link" data-scroll-target="#e02">E02</a></li>
+  <li><a href="#e03" id="toc-e03" class="nav-link" data-scroll-target="#e03">E03</a></li>
+  <li><a href="#e04" id="toc-e04" class="nav-link" data-scroll-target="#e04">E04</a></li>
+  <li><a href="#e05" id="toc-e05" class="nav-link" data-scroll-target="#e05">E05</a></li>
+  <li><a href="#e06" id="toc-e06" class="nav-link" data-scroll-target="#e06">E06</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/anubhavmaity/NeuralNetworks-Zero-To-Hero/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Building makemore exercise</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<section id="imports" class="level2">
+<h2 class="anchored" data-anchor-id="imports">Imports</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict, Counter</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> random_split</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> torch.Generator().manual_seed(<span class="dv">2147483647</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="e01" class="level2">
+<h2 class="anchored" data-anchor-id="e01">E01</h2>
+<blockquote class="blockquote">
+<p>Train a trigram language model, i.e.&nbsp;take two characters as an input to predict the 3rd one. Feel free to use either counting or a neural net. Evaluate the loss; Did it improve over a bigram model?</p>
+</blockquote>
+<section id="counting" class="level3">
+<h3 class="anchored" data-anchor-id="counting">Counting</h3>
+<p>Read in the data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'../data/names.txt'</span>) <span class="im">as</span> f:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    words <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="kw">lambda</span> x: x.strip(), f.readlines()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>words[:<span class="dv">10</span>], <span class="bu">len</span>(words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(['emma',
+  'olivia',
+  'ava',
+  'isabella',
+  'sophia',
+  'charlotte',
+  'mia',
+  'amelia',
+  'harper',
+  'evelyn'],
+ 32033)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_tripling(words):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> w <span class="kw">in</span> words:</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        chs <span class="op">=</span> [<span class="st">'.'</span>] <span class="op">+</span> <span class="bu">list</span>(w) <span class="op">+</span> [<span class="st">'.'</span>]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> ch1, ch2, ch3 <span class="kw">in</span> <span class="bu">zip</span>(chs, chs[<span class="dv">1</span>:], chs[<span class="dv">2</span>:]):</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> ch1, ch2, ch3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>alphabets <span class="op">=</span> <span class="st">'.abcdefghijklmnopqrstuvwxyz'</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>stoi <span class="op">=</span> {char: alphabets.index(char) <span class="cf">for</span> char <span class="kw">in</span> alphabets}</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>itos <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">map</span>(<span class="bu">reversed</span>, stoi.items()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ch1, ch2, ch3 <span class="kw">in</span> generate_tripling(words[:<span class="dv">3</span>]): <span class="bu">print</span>(ch1, ch2, ch3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>. e m
+e m m
+m m a
+m a .
+. o l
+o l i
+l i v
+i v i
+v i a
+i a .
+. a v
+a v a
+v a .</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> ch1, ch2, ch3 <span class="kw">in</span> generate_tripling(words))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>196113</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_tripling_counter(words):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    tripling_counter <span class="op">=</span> Counter()</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ch1, ch2, ch3 <span class="kw">in</span> generate_tripling(words):</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        tripling_counter[(ch1, ch2, ch3)] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tripling_counter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>tripling_counter <span class="op">=</span> generate_tripling_counter(words)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>tripling_counter.most_common(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[(('a', 'h', '.'), 1714),
+ (('n', 'a', '.'), 1673),
+ (('a', 'n', '.'), 1509),
+ (('o', 'n', '.'), 1503),
+ (('.', 'm', 'a'), 1453),
+ (('.', 'j', 'a'), 1255),
+ (('.', 'k', 'a'), 1254),
+ (('e', 'n', '.'), 1217),
+ (('l', 'y', 'n'), 976),
+ (('y', 'n', '.'), 953)]</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(tripling_counter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>6037</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_matrix():</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> torch.zeros((<span class="dv">27</span>, <span class="dv">27</span>, <span class="dv">27</span>), dtype<span class="op">=</span>torch.int32)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ch1, ch2, ch3 <span class="kw">in</span> generate_tripling(words):</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        ix1 <span class="op">=</span> stoi[ch1]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        ix2 <span class="op">=</span> stoi[ch2]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>        ix3 <span class="op">=</span> stoi[ch3]</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        N[ix1, ix2, ix3] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> N</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> create_matrix()<span class="op">;</span> N.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([27, 27, 27])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>N[<span class="dv">1</span>, <span class="dv">8</span>, <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(1714, dtype=torch.int32)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>P <span class="op">=</span> (N<span class="op">+</span><span class="dv">1</span>).<span class="bu">float</span>()</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>P <span class="op">=</span> P<span class="op">/</span>P.<span class="bu">sum</span>(<span class="op">-</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_tripling_prob(words):</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ch1, ch2, ch3 <span class="kw">in</span> generate_tripling(words):</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        ix1 <span class="op">=</span> stoi[ch1]</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        ix2 <span class="op">=</span> stoi[ch2]</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        ix3 <span class="op">=</span> stoi[ch3]</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        prob <span class="op">=</span> P[ix1, ix2, ix3]</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">yield</span> ch1, ch2, ch3, prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ch1, ch2, ch3, prob <span class="kw">in</span> generate_tripling_prob(words[:<span class="dv">3</span>]): </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(ch1, ch2, ch3, prob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>. e m tensor(0.1855)
+e m m tensor(0.1269)
+m m a tensor(0.3744)
+m a . tensor(0.0669)
+. o l tensor(0.2494)
+o l i tensor(0.1084)
+l i v tensor(0.0219)
+i v i tensor(0.2669)
+v i a tensor(0.1578)
+i a . tensor(0.3657)
+. a v tensor(0.0550)
+a v a tensor(0.1882)
+v a . tensor(0.1405)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_names(count, P):</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(count):</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>        out <span class="op">=</span> []</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        ix1, ix2 <span class="op">=</span> <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>            p <span class="op">=</span> P[ix1, ix2]</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>            ix1 <span class="op">=</span> ix2</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>            ix2 <span class="op">=</span> torch.multinomial(p, num_samples <span class="op">=</span> <span class="dv">1</span>, replacement <span class="op">=</span> <span class="va">True</span>, generator<span class="op">=</span>g).item()</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>            out.append(itos[ix2])</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> ix2 <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">yield</span> <span class="st">''</span>.join(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name <span class="kw">in</span> generate_names(<span class="dv">5</span>, P): <span class="bu">print</span>(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>quia.
+yu.
+quinslyntien.
+nolliahi.
+ha.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_likelihood(words):</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    sum_log <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ch1, ch2, ch3, prob <span class="kw">in</span> generate_tripling_prob(words):</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>        sum_log <span class="op">+=</span> torch.log(prob)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>        count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sum_log<span class="op">/</span>count</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(P)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>27</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>log_likelihood(words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(-2.0927)</code></pre>
+</div>
+</div>
+<p>negative log likelihood</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="op">-</span> log_likelihood(words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(2.0927)</code></pre>
+</div>
+</div>
+</section>
+<section id="nn" class="level3">
+<h3 class="anchored" data-anchor-id="nn">NN</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_training_set(words):</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    xs1 <span class="op">=</span> []</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    xs2 <span class="op">=</span> []</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    ys <span class="op">=</span> []</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ch1, ch2, ch3 <span class="kw">in</span> generate_tripling(words):</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>        ix1 <span class="op">=</span> stoi[ch1]</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>        ix2 <span class="op">=</span> stoi[ch2]</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>        ix3 <span class="op">=</span> stoi[ch3]</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>        xs1.append(ix1)</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>        xs2.append(ix2)</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>        ys.append(ix3)</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    xs1 <span class="op">=</span> torch.tensor(xs1)</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    xs2 <span class="op">=</span> torch.tensor(xs2)</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    xs <span class="op">=</span> torch.vstack((xs1, xs2)).permute(<span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>    ys <span class="op">=</span> torch.tensor(ys)</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xs, ys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="sample-dataset" class="level4">
+<h4 class="anchored" data-anchor-id="sample-dataset">Sample dataset</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>xs, ys <span class="op">=</span> generate_training_set(words[:<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>xs.shape, ys.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(torch.Size([4, 2]), torch.Size([4]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>xenc <span class="op">=</span> F.one_hot(xs, num_classes<span class="op">=</span><span class="dv">27</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>xenc.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([4, 2, 27])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>xenc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0]],
+
+        [[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0]],
+
+        [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0]],
+
+        [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0],
+         [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0]]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>xenc_flattened <span class="op">=</span> xenc.view(<span class="dv">4</span>, <span class="op">-</span><span class="dv">1</span>).<span class="bu">float</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> torch.randn((<span class="dv">27</span><span class="op">*</span><span class="dv">2</span>, <span class="dv">27</span>), generator<span class="op">=</span>g)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>W</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([[ 1.7457,  2.1346, -0.8561,  ..., -1.3257,  0.1467,  0.1691],
+        [-1.5397, -0.7276,  1.1491,  ...,  0.0793,  0.9019,  1.2028],
+        [-0.3794, -0.9875, -0.1380,  ..., -0.5608, -0.2000,  0.2345],
+        ...,
+        [-1.1553,  0.0718,  1.3791,  ...,  1.7574, -0.8094,  1.5089],
+        [-1.3766,  0.0908, -0.4618,  ...,  1.4289, -0.3785, -1.1138],
+        [-0.7575,  0.9740, -0.0826,  ..., -0.0362,  1.4447, -1.0328]])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>logits <span class="op">=</span> xenc_flattened <span class="op">@</span> W <span class="co"># log counts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> logits.exp()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>prob <span class="op">=</span> counts<span class="op">/</span>counts.<span class="bu">sum</span>(<span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>prob.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([4, 27])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>ys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor([13, 13,  1,  0])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>prob[<span class="dv">0</span>, <span class="dv">13</span>], prob[<span class="dv">1</span>, <span class="dv">13</span>], prob[<span class="dv">2</span>, <span class="dv">1</span>], prob[<span class="dv">3</span>, <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(tensor(0.0138), tensor(0.0141), tensor(0.0025), tensor(0.0234))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="op">-</span>prob[torch.arange(<span class="dv">4</span>), ys].log().mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(4.5763)</code></pre>
+</div>
+</div>
+</section>
+<section id="train" class="level4">
+<h4 class="anchored" data-anchor-id="train">Train</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>xs, ys <span class="op">=</span> generate_training_set(words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>xs, ys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(tensor([[ 0,  5],
+         [ 5, 13],
+         [13, 13],
+         ...,
+         [26, 25],
+         [25, 26],
+         [26, 24]]),
+ tensor([13, 13,  1,  ..., 26, 24,  0]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>xenc <span class="op">=</span> F.one_hot(xs, num_classes<span class="op">=</span><span class="dv">27</span>)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>xenc_flattened <span class="op">=</span> xenc.view(<span class="bu">len</span>(xenc), <span class="op">-</span><span class="dv">1</span>).<span class="bu">float</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>xenc_flattened.dtype</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.float32</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>xenc_flattened.shape, ys.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(torch.Size([196113, 54]), torch.Size([196113]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train(X, y, epochs, lr):</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>    num <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(num)</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>    W <span class="op">=</span> torch.randn((<span class="dv">54</span>, <span class="dv">27</span>), requires_grad<span class="op">=</span><span class="va">True</span>, generator<span class="op">=</span>g)</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>        logits <span class="op">=</span> X <span class="op">@</span> W</span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>        counts <span class="op">=</span> logits.exp()</span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>        prob <span class="op">=</span> counts<span class="op">/</span>counts.<span class="bu">sum</span>(<span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> <span class="op">-</span>prob[torch.arange(num), y].log().mean()</span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Epoch </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> Loss </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>        W.grad <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a>        W.data <span class="op">+=</span> <span class="op">-</span>lr <span class="op">*</span> W.grad </span>
+<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> W</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>xenc_flattened.shape[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>196113</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> train(xenc_flattened, ys, <span class="dv">100</span>, <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>196113
+Epoch 0 Loss 4.304508209228516
+Epoch 1 Loss 3.5239951610565186
+Epoch 2 Loss 3.1618173122406006
+Epoch 3 Loss 2.9341208934783936
+Epoch 4 Loss 2.788262128829956
+Epoch 5 Loss 2.6947758197784424
+Epoch 6 Loss 2.6315062046051025
+Epoch 7 Loss 2.5849287509918213
+Epoch 8 Loss 2.5485451221466064
+Epoch 9 Loss 2.519071578979492
+Epoch 10 Loss 2.4946088790893555
+Epoch 11 Loss 2.4739458560943604
+Epoch 12 Loss 2.4562535285949707
+Epoch 13 Loss 2.440938949584961
+Epoch 14 Loss 2.427560329437256
+Epoch 15 Loss 2.415781021118164
+Epoch 16 Loss 2.4053385257720947
+Epoch 17 Loss 2.396023988723755
+Epoch 18 Loss 2.3876688480377197
+Epoch 19 Loss 2.380136728286743
+Epoch 20 Loss 2.3733139038085938
+Epoch 21 Loss 2.3671069145202637
+Epoch 22 Loss 2.3614373207092285
+Epoch 23 Loss 2.356238842010498
+Epoch 24 Loss 2.3514552116394043
+Epoch 25 Loss 2.347038984298706
+Epoch 26 Loss 2.3429486751556396
+Epoch 27 Loss 2.339149236679077
+Epoch 28 Loss 2.3356103897094727
+Epoch 29 Loss 2.3323051929473877
+Epoch 30 Loss 2.3292105197906494
+Epoch 31 Loss 2.3263063430786133
+Epoch 32 Loss 2.3235747814178467
+Epoch 33 Loss 2.321000576019287
+Epoch 34 Loss 2.3185694217681885
+Epoch 35 Loss 2.3162693977355957
+Epoch 36 Loss 2.3140900135040283
+Epoch 37 Loss 2.3120217323303223
+Epoch 38 Loss 2.3100552558898926
+Epoch 39 Loss 2.3081839084625244
+Epoch 40 Loss 2.3064005374908447
+Epoch 41 Loss 2.3046987056732178
+Epoch 42 Loss 2.303072929382324
+Epoch 43 Loss 2.301518201828003
+Epoch 44 Loss 2.30003023147583
+Epoch 45 Loss 2.2986040115356445
+Epoch 46 Loss 2.297236442565918
+Epoch 47 Loss 2.2959237098693848
+Epoch 48 Loss 2.2946624755859375
+Epoch 49 Loss 2.293450355529785
+Epoch 50 Loss 2.292283773422241
+Epoch 51 Loss 2.2911601066589355
+Epoch 52 Loss 2.2900779247283936
+Epoch 53 Loss 2.289034605026245
+Epoch 54 Loss 2.2880282402038574
+Epoch 55 Loss 2.2870562076568604
+Epoch 56 Loss 2.2861175537109375
+Epoch 57 Loss 2.285210371017456
+Epoch 58 Loss 2.2843332290649414
+Epoch 59 Loss 2.28348445892334
+Epoch 60 Loss 2.282663106918335
+Epoch 61 Loss 2.281867504119873
+Epoch 62 Loss 2.2810964584350586
+Epoch 63 Loss 2.2803494930267334
+Epoch 64 Loss 2.2796247005462646
+Epoch 65 Loss 2.278921365737915
+Epoch 66 Loss 2.2782392501831055
+Epoch 67 Loss 2.2775766849517822
+Epoch 68 Loss 2.276932954788208
+Epoch 69 Loss 2.2763075828552246
+Epoch 70 Loss 2.2756996154785156
+Epoch 71 Loss 2.2751083374023438
+Epoch 72 Loss 2.2745330333709717
+Epoch 73 Loss 2.2739734649658203
+Epoch 74 Loss 2.273428440093994
+Epoch 75 Loss 2.272897958755493
+Epoch 76 Loss 2.27238130569458
+Epoch 77 Loss 2.2718777656555176
+Epoch 78 Loss 2.2713873386383057
+Epoch 79 Loss 2.2709085941314697
+Epoch 80 Loss 2.270442247390747
+Epoch 81 Loss 2.269987106323242
+Epoch 82 Loss 2.269543170928955
+Epoch 83 Loss 2.2691097259521484
+Epoch 84 Loss 2.268686532974243
+Epoch 85 Loss 2.2682735919952393
+Epoch 86 Loss 2.2678701877593994
+Epoch 87 Loss 2.2674758434295654
+Epoch 88 Loss 2.2670907974243164
+Epoch 89 Loss 2.266714334487915
+Epoch 90 Loss 2.2663462162017822
+Epoch 91 Loss 2.265986204147339
+Epoch 92 Loss 2.265634298324585
+Epoch 93 Loss 2.2652900218963623
+Epoch 94 Loss 2.2649528980255127
+Epoch 95 Loss 2.2646231651306152
+Epoch 96 Loss 2.2643001079559326
+Epoch 97 Loss 2.263984203338623
+Epoch 98 Loss 2.263674736022949
+Epoch 99 Loss 2.263371467590332</code></pre>
+</div>
+</div>
+<p>Here the loss is less, it is an improve over bigram model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>xenc <span class="op">=</span> F.one_hot(torch.tensor([<span class="dv">0</span>, <span class="dv">0</span>]), num_classes<span class="op">=</span><span class="dv">27</span>).<span class="bu">float</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>xenc.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([2, 27])</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="prediction" class="level3">
+<h3 class="anchored" data-anchor-id="prediction">Prediction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_words():</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>        out <span class="op">=</span> []</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>        ix1, ix2 <span class="op">=</span> <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>            xenc <span class="op">=</span> F.one_hot(torch.tensor([ix1, ix2]), num_classes<span class="op">=</span><span class="dv">27</span>).<span class="bu">float</span>()</span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>            xenc_flattened <span class="op">=</span> xenc.view(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>            logits <span class="op">=</span> xenc_flattened <span class="op">@</span> model <span class="co"># predict log-counts</span></span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>            counts <span class="op">=</span> logits.exp()</span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>            p <span class="op">=</span> counts<span class="op">/</span>counts.<span class="bu">sum</span>(<span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>            ix1 <span class="op">=</span> ix2</span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>            ix2 <span class="op">=</span> torch.multinomial(p, num_samples<span class="op">=</span><span class="dv">1</span>, replacement<span class="op">=</span><span class="va">True</span>).item()</span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>            out.append(itos[ix2])</span>
+<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> ix2 <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="cb75-16"><a href="#cb75-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">''</span>.join(out))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>generate_words()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>yanel.
+ori.
+yrmynna.
+alanan.
+ssonncasmi.</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="e02" class="level2">
+<h2 class="anchored" data-anchor-id="e02">E02</h2>
+<blockquote class="blockquote">
+<p>split up the dataset randomly into 80% train set, 10% dev set, 10% test set. Train the bigram and trigram models only on the training set. Evaluate them on dev and test splits. What can you see?</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>xenc_num <span class="op">=</span> xenc_flattened.shape[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="bu">range</span>(xenc_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>range(0, 196113)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>test_subset, valid_subset, train_subset <span class="op">=</span> random_split(<span class="bu">range</span>(xenc_num), [<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.8</span>], </span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>                          generator<span class="op">=</span>g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>train_idx <span class="op">=</span> torch.tensor(train_subset)</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>valid_idx <span class="op">=</span> torch.tensor(valid_subset)</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>test_idx <span class="op">=</span> torch.tensor(test_subset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>train_idx.shape, valid_idx.shape, test_idx.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(torch.Size([156890]), torch.Size([19611]), torch.Size([19612]))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>x_train, y_train <span class="op">=</span> xenc_flattened[train_idx], ys[train_idx]</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>x_valid, y_valid <span class="op">=</span> xenc_flattened[valid_idx], ys[valid_idx]</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>x_test, y_test <span class="op">=</span> xenc_flattened[test_idx], ys[test_idx]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>model_trigram <span class="op">=</span> train(x_train, y_train, <span class="dv">100</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>156890
+Epoch 0 Loss 4.504120826721191
+Epoch 1 Loss 4.2687578201293945
+Epoch 2 Loss 4.06620454788208
+Epoch 3 Loss 3.8899307250976562
+Epoch 4 Loss 3.7362024784088135
+Epoch 5 Loss 3.6019790172576904
+Epoch 6 Loss 3.4846436977386475
+Epoch 7 Loss 3.382246255874634
+Epoch 8 Loss 3.293360471725464
+Epoch 9 Loss 3.2166662216186523
+Epoch 10 Loss 3.1506481170654297
+Epoch 11 Loss 3.0936076641082764
+Epoch 12 Loss 3.0438811779022217
+Epoch 13 Loss 3.0000367164611816
+Epoch 14 Loss 2.9609479904174805
+Epoch 15 Loss 2.925764560699463
+Epoch 16 Loss 2.8938498497009277
+Epoch 17 Loss 2.864720106124878
+Epoch 18 Loss 2.838001251220703
+Epoch 19 Loss 2.813394069671631
+Epoch 20 Loss 2.790656566619873
+Epoch 21 Loss 2.7695863246917725
+Epoch 22 Loss 2.7500126361846924
+Epoch 23 Loss 2.73178768157959
+Epoch 24 Loss 2.7147839069366455
+Epoch 25 Loss 2.698887348175049
+Epoch 26 Loss 2.6839985847473145
+Epoch 27 Loss 2.6700284481048584
+Epoch 28 Loss 2.6568961143493652
+Epoch 29 Loss 2.6445319652557373
+Epoch 30 Loss 2.6328697204589844
+Epoch 31 Loss 2.6218528747558594
+Epoch 32 Loss 2.611428737640381
+Epoch 33 Loss 2.601550579071045
+Epoch 34 Loss 2.5921757221221924
+Epoch 35 Loss 2.583266258239746
+Epoch 36 Loss 2.5747880935668945
+Epoch 37 Loss 2.56670880317688
+Epoch 38 Loss 2.559000253677368
+Epoch 39 Loss 2.5516374111175537
+Epoch 40 Loss 2.5445964336395264
+Epoch 41 Loss 2.537855625152588
+Epoch 42 Loss 2.5313961505889893
+Epoch 43 Loss 2.5251998901367188
+Epoch 44 Loss 2.5192503929138184
+Epoch 45 Loss 2.513532876968384
+Epoch 46 Loss 2.508033514022827
+Epoch 47 Loss 2.502739906311035
+Epoch 48 Loss 2.4976401329040527
+Epoch 49 Loss 2.4927237033843994
+Epoch 50 Loss 2.487980604171753
+Epoch 51 Loss 2.4834015369415283
+Epoch 52 Loss 2.478977680206299
+Epoch 53 Loss 2.4747016429901123
+Epoch 54 Loss 2.4705657958984375
+Epoch 55 Loss 2.4665629863739014
+Epoch 56 Loss 2.4626872539520264
+Epoch 57 Loss 2.4589321613311768
+Epoch 58 Loss 2.455292224884033
+Epoch 59 Loss 2.4517619609832764
+Epoch 60 Loss 2.4483370780944824
+Epoch 61 Loss 2.445012331008911
+Epoch 62 Loss 2.4417836666107178
+Epoch 63 Loss 2.4386465549468994
+Epoch 64 Loss 2.4355976581573486
+Epoch 65 Loss 2.4326331615448
+Epoch 66 Loss 2.4297492504119873
+Epoch 67 Loss 2.426943302154541
+Epoch 68 Loss 2.4242119789123535
+Epoch 69 Loss 2.4215521812438965
+Epoch 70 Loss 2.418961524963379
+Epoch 71 Loss 2.4164371490478516
+Epoch 72 Loss 2.4139764308929443
+Epoch 73 Loss 2.411576986312866
+Epoch 74 Loss 2.4092373847961426
+Epoch 75 Loss 2.4069550037384033
+Epoch 76 Loss 2.4047274589538574
+Epoch 77 Loss 2.402553081512451
+Epoch 78 Loss 2.400430202484131
+Epoch 79 Loss 2.3983571529388428
+Epoch 80 Loss 2.396331787109375
+Epoch 81 Loss 2.394352912902832
+Epoch 82 Loss 2.392418622970581
+Epoch 83 Loss 2.3905277252197266
+Epoch 84 Loss 2.388679265975952
+Epoch 85 Loss 2.386870861053467
+Epoch 86 Loss 2.3851022720336914
+Epoch 87 Loss 2.383371353149414
+Epoch 88 Loss 2.3816778659820557
+Epoch 89 Loss 2.380019426345825
+Epoch 90 Loss 2.378396511077881
+Epoch 91 Loss 2.3768067359924316
+Epoch 92 Loss 2.3752498626708984
+Epoch 93 Loss 2.3737244606018066
+Epoch 94 Loss 2.372229814529419
+Epoch 95 Loss 2.370765447616577
+Epoch 96 Loss 2.3693296909332275
+Epoch 97 Loss 2.367922306060791
+Epoch 98 Loss 2.366542339324951
+Epoch 99 Loss 2.3651890754699707</code></pre>
+</div>
+</div>
+<p>Loss on the dev set</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_loss(model, x, y):</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>    logits <span class="op">=</span> x <span class="op">@</span> model</span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>    counts <span class="op">=</span> logits.exp()</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>    pred <span class="op">=</span> counts<span class="op">/</span>counts.<span class="bu">sum</span>(<span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span> pred[torch.arange(x.shape[<span class="dv">0</span>]), y].log().mean().item()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>evaluate_loss(model_trigram, x_valid, y_valid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>2.3728110790252686</code></pre>
+</div>
+</div>
+<p>Loss on the test set</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>evaluate_loss(model_trigram, x_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>2.3934383392333984</code></pre>
+</div>
+</div>
+<p>The loss on test and validation dataset are about the same for the trigram model on the training set.</p>
+<p>Same we can for the bigram model that I have computed in <code>nbs/lecture_notes/02_building_makemore.ipynb</code>. The validation and test dataset have about the same losses to the training set.</p>
+<p>The trigram is better than bigram</p>
+</section>
+<section id="e03" class="level2">
+<h2 class="anchored" data-anchor-id="e03">E03</h2>
+<blockquote class="blockquote">
+<p>Use the dev set to tune the strength of smoothing (or regularization) for the trigram model - i.e.&nbsp;try many possibilities and see which one works best based on the dev set loss. What patterns can you see in the train and dev set loss as you tune this strength? Take the best setting of the smoothing and evaluate on the test set once and at the end. How good of a loss do you achieve?</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train(X, y, epochs, lr, regularization_param, print_at_every_epoch <span class="op">=</span> <span class="va">False</span>, print_at_last<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>    num <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>    W <span class="op">=</span> torch.randn((<span class="dv">54</span>, <span class="dv">27</span>), requires_grad<span class="op">=</span><span class="va">True</span>, generator<span class="op">=</span>g)</span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>        logits <span class="op">=</span> X <span class="op">@</span> W</span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a>        counts <span class="op">=</span> logits.exp()</span>
+<span id="cb93-7"><a href="#cb93-7" aria-hidden="true" tabindex="-1"></a>        prob <span class="op">=</span> counts<span class="op">/</span>counts.<span class="bu">sum</span>(<span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb93-8"><a href="#cb93-8" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> <span class="op">-</span>prob[torch.arange(num), y].log().mean()</span>
+<span id="cb93-9"><a href="#cb93-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb93-10"><a href="#cb93-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># regularization</span></span>
+<span id="cb93-11"><a href="#cb93-11" aria-hidden="true" tabindex="-1"></a>        regularization_loss <span class="op">=</span> regularization_param <span class="op">*</span> (W <span class="op">**</span><span class="dv">2</span>).mean()</span>
+<span id="cb93-12"><a href="#cb93-12" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">+=</span> regularization_loss</span>
+<span id="cb93-13"><a href="#cb93-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb93-14"><a href="#cb93-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> print_at_every_epoch: <span class="bu">print</span>(<span class="ss">f'Epoch </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> Loss </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb93-15"><a href="#cb93-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb93-16"><a href="#cb93-16" aria-hidden="true" tabindex="-1"></a>        W.grad <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb93-17"><a href="#cb93-17" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
+<span id="cb93-18"><a href="#cb93-18" aria-hidden="true" tabindex="-1"></a>        W.data <span class="op">+=</span> <span class="op">-</span>lr <span class="op">*</span> W.grad </span>
+<span id="cb93-19"><a href="#cb93-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb93-20"><a href="#cb93-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> print_at_last: <span class="bu">print</span>(<span class="ss">f'Loss </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb93-21"><a href="#cb93-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> W, loss.item()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_reg_param_trend():</span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>    train_losses <span class="op">=</span> []</span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>    val_losses <span class="op">=</span> []</span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>    reg_params <span class="op">=</span> []</span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> reg_param <span class="kw">in</span> torch.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">100</span>):</span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>        model, train_loss <span class="op">=</span> train(x_train, y_train, <span class="dv">100</span>, <span class="dv">10</span>, reg_param)</span>
+<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a>        val_loss <span class="op">=</span> evaluate_loss(model, x_valid, y_valid)</span>
+<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a>        train_losses.append(train_loss)</span>
+<span id="cb94-10"><a href="#cb94-10" aria-hidden="true" tabindex="-1"></a>        val_losses.append(val_loss)</span>
+<span id="cb94-11"><a href="#cb94-11" aria-hidden="true" tabindex="-1"></a>        reg_params.append(reg_param)</span>
+<span id="cb94-12"><a href="#cb94-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-13"><a href="#cb94-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> train_losses, val_losses, reg_params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>train_losses, val_losses, reg_params <span class="op">=</span> get_reg_param_trend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>plt.plot(train_losses)</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>plt.plot(val_losses)</span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'model loss'</span>)</span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'loss'</span>)</span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'regularization parameter'</span>)</span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>plt.legend([<span class="st">'train'</span>, <span class="st">'val'</span>], loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="02_building_makemore_execise_files/figure-html/cell-65-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>As we increase the regularization strength, we see that both the losses are increasing and the training loss is increasing over validation loss, it means that the model is underfitting. Lets choose the regularization parameter as 0 and evaluate the test set</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>model, train_loss <span class="op">=</span> train(x_train, y_train, <span class="dv">100</span>, <span class="dv">10</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>train_loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>2.3800032138824463</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>evaluate_loss(model, x_valid, y_valid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>2.3897788524627686</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>evaluate_loss(model, x_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>2.407710075378418</code></pre>
+</div>
+</div>
+</section>
+<section id="e04" class="level2">
+<h2 class="anchored" data-anchor-id="e04">E04</h2>
+<blockquote class="blockquote">
+<p>We saw that our 1-hot vectors merely select a row of W, so producing these vectors explicitly feels wasteful. Can you delete our use of F.one_hot in favor of simply indexing into rows of W?</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>xs.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([196113, 2])</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>xenc_num</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>196113</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>x_train, y_train <span class="op">=</span> xs[train_idx], ys[train_idx]</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>x_valid, y_valid <span class="op">=</span> xs[valid_idx], ys[valid_idx]</span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>x_test, y_test <span class="op">=</span> xs[test_idx], ys[test_idx]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train(X, y, epochs, lr, regularization_param, print_at_every_epoch <span class="op">=</span> <span class="va">False</span>, print_at_last<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> X.shape[<span class="op">-</span><span class="dv">1</span>] <span class="op">==</span> <span class="dv">2</span></span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>    num <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a>    W <span class="op">=</span> torch.randn((<span class="dv">54</span>, <span class="dv">27</span>), requires_grad<span class="op">=</span><span class="va">True</span>, generator<span class="op">=</span>g)</span>
+<span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb109-6"><a href="#cb109-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb109-7"><a href="#cb109-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">#indexing</span></span>
+<span id="cb109-8"><a href="#cb109-8" aria-hidden="true" tabindex="-1"></a>        W1 <span class="op">=</span> W[:<span class="dv">27</span>]</span>
+<span id="cb109-9"><a href="#cb109-9" aria-hidden="true" tabindex="-1"></a>        W2 <span class="op">=</span> W[<span class="dv">27</span>:]</span>
+<span id="cb109-10"><a href="#cb109-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb109-11"><a href="#cb109-11" aria-hidden="true" tabindex="-1"></a>        logits <span class="op">=</span> W1[X[:, <span class="dv">0</span>]] <span class="op">+</span> W2[X[:, <span class="dv">1</span>]]</span>
+<span id="cb109-12"><a href="#cb109-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb109-13"><a href="#cb109-13" aria-hidden="true" tabindex="-1"></a>        counts <span class="op">=</span> logits.exp()</span>
+<span id="cb109-14"><a href="#cb109-14" aria-hidden="true" tabindex="-1"></a>        prob <span class="op">=</span> counts<span class="op">/</span>counts.<span class="bu">sum</span>(<span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb109-15"><a href="#cb109-15" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> <span class="op">-</span>prob[torch.arange(num), y].log().mean()</span>
+<span id="cb109-16"><a href="#cb109-16" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb109-17"><a href="#cb109-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># regularization</span></span>
+<span id="cb109-18"><a href="#cb109-18" aria-hidden="true" tabindex="-1"></a>        regularization_loss <span class="op">=</span> regularization_param <span class="op">*</span> (W <span class="op">**</span><span class="dv">2</span>).mean()</span>
+<span id="cb109-19"><a href="#cb109-19" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">+=</span> regularization_loss</span>
+<span id="cb109-20"><a href="#cb109-20" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb109-21"><a href="#cb109-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> print_at_every_epoch: <span class="bu">print</span>(<span class="ss">f'Epoch </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> Loss </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb109-22"><a href="#cb109-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb109-23"><a href="#cb109-23" aria-hidden="true" tabindex="-1"></a>        W.grad <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb109-24"><a href="#cb109-24" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
+<span id="cb109-25"><a href="#cb109-25" aria-hidden="true" tabindex="-1"></a>        W.data <span class="op">+=</span> <span class="op">-</span>lr <span class="op">*</span> W.grad </span>
+<span id="cb109-26"><a href="#cb109-26" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb109-27"><a href="#cb109-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> print_at_last: <span class="bu">print</span>(<span class="ss">f'Loss </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb109-28"><a href="#cb109-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> W, loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>model, train_loss <span class="op">=</span> train(x_train, y_train, <span class="dv">100</span>, <span class="dv">10</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>train_loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(2.3760, grad_fn=&lt;AddBackward0&gt;)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_loss(model, x, y):</span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>    W1 <span class="op">=</span> model[:<span class="dv">27</span>]</span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>    W2 <span class="op">=</span> model[<span class="dv">27</span>:]</span>
+<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a>    logits <span class="op">=</span> W1[x[:, <span class="dv">0</span>]] <span class="op">+</span> W2[x[:, <span class="dv">1</span>]]</span>
+<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb113-7"><a href="#cb113-7" aria-hidden="true" tabindex="-1"></a>    counts <span class="op">=</span> logits.exp()</span>
+<span id="cb113-8"><a href="#cb113-8" aria-hidden="true" tabindex="-1"></a>    prob <span class="op">=</span> counts<span class="op">/</span>counts.<span class="bu">sum</span>(<span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb113-9"><a href="#cb113-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>prob[torch.arange(x.shape[<span class="dv">0</span>]), y].log().mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>evaluate_loss(model, x_valid, y_valid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(2.3836, grad_fn=&lt;NegBackward0&gt;)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>evaluate_loss(model, x_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(2.4045, grad_fn=&lt;NegBackward0&gt;)</code></pre>
+</div>
+</div>
+</section>
+<section id="e05" class="level2">
+<h2 class="anchored" data-anchor-id="e05">E05</h2>
+<blockquote class="blockquote">
+<p>Look up and use F.cross_entropy instead. You should achieve the same result. Can you think of why we’d prefer to use F.cross_entropy instead?</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>x_train, y_train <span class="op">=</span> xenc_flattened[train_idx], ys[train_idx]</span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>x_valid, y_valid <span class="op">=</span> xenc_flattened[valid_idx], ys[valid_idx]</span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>x_test, y_test <span class="op">=</span> xenc_flattened[test_idx], ys[test_idx]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train(X, y, epochs, lr, print_at_every_epoch <span class="op">=</span> <span class="va">False</span>, print_at_last<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a>    num <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a>    W <span class="op">=</span> torch.randn((<span class="dv">54</span>, <span class="dv">27</span>), requires_grad<span class="op">=</span><span class="va">True</span>, generator<span class="op">=</span>g)</span>
+<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a>        logits <span class="op">=</span> X <span class="op">@</span> W</span>
+<span id="cb119-6"><a href="#cb119-6" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> F.cross_entropy(logits, y)</span>
+<span id="cb119-7"><a href="#cb119-7" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb119-8"><a href="#cb119-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> print_at_every_epoch: <span class="bu">print</span>(<span class="ss">f'Epoch </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> Loss </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb119-9"><a href="#cb119-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb119-10"><a href="#cb119-10" aria-hidden="true" tabindex="-1"></a>        W.grad <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb119-11"><a href="#cb119-11" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
+<span id="cb119-12"><a href="#cb119-12" aria-hidden="true" tabindex="-1"></a>        W.data <span class="op">+=</span> <span class="op">-</span>lr <span class="op">*</span> W.grad </span>
+<span id="cb119-13"><a href="#cb119-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb119-14"><a href="#cb119-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> print_at_last: <span class="bu">print</span>(<span class="ss">f'Loss </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb119-15"><a href="#cb119-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> W, loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_loss(model, x, y):</span>
+<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>    logits <span class="op">=</span> x <span class="op">@</span> model</span>
+<span id="cb120-3"><a href="#cb120-3" aria-hidden="true" tabindex="-1"></a>    counts <span class="op">=</span> logits.exp()</span>
+<span id="cb120-4"><a href="#cb120-4" aria-hidden="true" tabindex="-1"></a>    pred <span class="op">=</span> counts<span class="op">/</span>counts.<span class="bu">sum</span>(<span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb120-5"><a href="#cb120-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span> pred[torch.arange(x.shape[<span class="dv">0</span>]), y].log().mean().item()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>model, loss <span class="op">=</span> train(x_train, y_train, <span class="dv">100</span>, <span class="dv">10</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(2.3776, grad_fn=&lt;NllLossBackward0&gt;)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>evaluate_loss(model, x_valid, y_valid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>2.387678861618042</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>evaluate_loss(model, x_test, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>2.4051289558410645</code></pre>
+</div>
+</div>
+<p>Using <code>F.cross_entropy</code>, we dont have to compute the counts and probabilities ourselves instead we just have to pass the logits and labels to the function, also we can pass the weight given to each class and label smoothing</p>
+</section>
+<section id="e06" class="level2">
+<h2 class="anchored" data-anchor-id="e06">E06</h2>
+<blockquote class="blockquote">
+<p>meta-exercise! Think of a fun/interesting exercise and complete it.</p>
+</blockquote>
+<p>Lets introduce bias, activation function and another layer of weight in the neural network</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>relu <span class="op">=</span> torch.nn.ReLU() <span class="co"># activation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train(X, y, epochs, lr, print_at_every_epoch <span class="op">=</span> <span class="va">False</span>, print_at_last<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a>    num <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb129-3"><a href="#cb129-3" aria-hidden="true" tabindex="-1"></a>    W1 <span class="op">=</span> torch.randn((<span class="dv">54</span>, <span class="dv">50</span>), requires_grad<span class="op">=</span><span class="va">True</span>, generator<span class="op">=</span>g)</span>
+<span id="cb129-4"><a href="#cb129-4" aria-hidden="true" tabindex="-1"></a>    W2 <span class="op">=</span> torch.randn((<span class="dv">50</span>, <span class="dv">27</span>), requires_grad<span class="op">=</span><span class="va">True</span>, generator<span class="op">=</span>g)</span>
+<span id="cb129-5"><a href="#cb129-5" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> torch.zeros(<span class="dv">50</span>, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb129-6"><a href="#cb129-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb129-7"><a href="#cb129-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb129-8"><a href="#cb129-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb129-9"><a href="#cb129-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">#first layer</span></span>
+<span id="cb129-10"><a href="#cb129-10" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> relu(X <span class="op">@</span> W1 <span class="op">+</span> b)</span>
+<span id="cb129-11"><a href="#cb129-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb129-12"><a href="#cb129-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># second layer</span></span>
+<span id="cb129-13"><a href="#cb129-13" aria-hidden="true" tabindex="-1"></a>        logits <span class="op">=</span> output <span class="op">@</span> W2</span>
+<span id="cb129-14"><a href="#cb129-14" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> F.cross_entropy(logits, y)</span>
+<span id="cb129-15"><a href="#cb129-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb129-16"><a href="#cb129-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> print_at_every_epoch: <span class="bu">print</span>(<span class="ss">f'Epoch </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> Loss </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb129-17"><a href="#cb129-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb129-18"><a href="#cb129-18" aria-hidden="true" tabindex="-1"></a>        W1.grad <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb129-19"><a href="#cb129-19" aria-hidden="true" tabindex="-1"></a>        W2.grad <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb129-20"><a href="#cb129-20" aria-hidden="true" tabindex="-1"></a>        b.grad <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb129-21"><a href="#cb129-21" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb129-22"><a href="#cb129-22" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
+<span id="cb129-23"><a href="#cb129-23" aria-hidden="true" tabindex="-1"></a>        W1.data <span class="op">+=</span> <span class="op">-</span>lr <span class="op">*</span> W1.grad </span>
+<span id="cb129-24"><a href="#cb129-24" aria-hidden="true" tabindex="-1"></a>        W2.data <span class="op">+=</span> <span class="op">-</span>lr <span class="op">*</span> W2.grad </span>
+<span id="cb129-25"><a href="#cb129-25" aria-hidden="true" tabindex="-1"></a>        b.data <span class="op">+=</span> <span class="op">-</span>lr <span class="op">*</span> b.grad</span>
+<span id="cb129-26"><a href="#cb129-26" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb129-27"><a href="#cb129-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> print_at_last: <span class="bu">print</span>(<span class="ss">f'Loss </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb129-28"><a href="#cb129-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> W1, W2, b, loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>params1, params2, bias,  loss <span class="op">=</span> train(x_train, y_train, <span class="dv">100</span>, <span class="dv">5</span>, print_at_every_epoch <span class="op">=</span> <span class="va">True</span>, print_at_last <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 0 Loss 14.541219711303711
+Epoch 1 Loss 6.2091875076293945
+Epoch 2 Loss 4.395009994506836
+Epoch 3 Loss 3.53914475440979
+Epoch 4 Loss 3.2722010612487793
+Epoch 5 Loss 3.154813766479492
+Epoch 6 Loss 3.0808494091033936
+Epoch 7 Loss 3.0231924057006836
+Epoch 8 Loss 2.9723856449127197
+Epoch 9 Loss 2.929724931716919
+Epoch 10 Loss 2.8861398696899414
+Epoch 11 Loss 2.8448402881622314
+Epoch 12 Loss 2.8097846508026123
+Epoch 13 Loss 2.7789549827575684
+Epoch 14 Loss 2.7526140213012695
+Epoch 15 Loss 2.7295141220092773
+Epoch 16 Loss 2.709247350692749
+Epoch 17 Loss 2.691128730773926
+Epoch 18 Loss 2.6747939586639404
+Epoch 19 Loss 2.6597096920013428
+Epoch 20 Loss 2.6458194255828857
+Epoch 21 Loss 2.6330149173736572
+Epoch 22 Loss 2.621168851852417
+Epoch 23 Loss 2.6100637912750244
+Epoch 24 Loss 2.5997819900512695
+Epoch 25 Loss 2.589761972427368
+Epoch 26 Loss 2.5802347660064697
+Epoch 27 Loss 2.5712060928344727
+Epoch 28 Loss 2.5626959800720215
+Epoch 29 Loss 2.553861379623413
+Epoch 30 Loss 2.545748710632324
+Epoch 31 Loss 2.5381507873535156
+Epoch 32 Loss 2.53104567527771
+Epoch 33 Loss 2.5244433879852295
+Epoch 34 Loss 2.5182859897613525
+Epoch 35 Loss 2.5125017166137695
+Epoch 36 Loss 2.506807804107666
+Epoch 37 Loss 2.501720428466797
+Epoch 38 Loss 2.4966917037963867
+Epoch 39 Loss 2.492325782775879
+Epoch 40 Loss 2.4879019260406494
+Epoch 41 Loss 2.484579086303711
+Epoch 42 Loss 2.480976104736328
+Epoch 43 Loss 2.4792466163635254
+Epoch 44 Loss 2.475902795791626
+Epoch 45 Loss 2.4750518798828125
+Epoch 46 Loss 2.4703636169433594
+Epoch 47 Loss 2.470320463180542
+Epoch 48 Loss 2.4647164344787598
+Epoch 49 Loss 2.4643948078155518
+Epoch 50 Loss 2.458014965057373
+Epoch 51 Loss 2.457747459411621
+Epoch 52 Loss 2.4513306617736816
+Epoch 53 Loss 2.4503233432769775
+Epoch 54 Loss 2.444188117980957
+Epoch 55 Loss 2.442826271057129
+Epoch 56 Loss 2.4379799365997314
+Epoch 57 Loss 2.436905860900879
+Epoch 58 Loss 2.4321563243865967
+Epoch 59 Loss 2.4304089546203613
+Epoch 60 Loss 2.4265809059143066
+Epoch 61 Loss 2.424839973449707
+Epoch 62 Loss 2.421621322631836
+Epoch 63 Loss 2.4200439453125
+Epoch 64 Loss 2.4169461727142334
+Epoch 65 Loss 2.415520429611206
+Epoch 66 Loss 2.412719488143921
+Epoch 67 Loss 2.4114415645599365
+Epoch 68 Loss 2.408984899520874
+Epoch 69 Loss 2.4082932472229004
+Epoch 70 Loss 2.405961275100708
+Epoch 71 Loss 2.4053380489349365
+Epoch 72 Loss 2.403006076812744
+Epoch 73 Loss 2.402623176574707
+Epoch 74 Loss 2.400026559829712
+Epoch 75 Loss 2.399906873703003
+Epoch 76 Loss 2.3976261615753174
+Epoch 77 Loss 2.3984215259552
+Epoch 78 Loss 2.395678997039795
+Epoch 79 Loss 2.396718740463257
+Epoch 80 Loss 2.394043445587158
+Epoch 81 Loss 2.395671844482422
+Epoch 82 Loss 2.3921918869018555
+Epoch 83 Loss 2.392773389816284
+Epoch 84 Loss 2.3891818523406982
+Epoch 85 Loss 2.3900513648986816
+Epoch 86 Loss 2.3863515853881836
+Epoch 87 Loss 2.3863282203674316
+Epoch 88 Loss 2.3832342624664307
+Epoch 89 Loss 2.3832027912139893
+Epoch 90 Loss 2.3800551891326904
+Epoch 91 Loss 2.380153179168701
+Epoch 92 Loss 2.377634048461914
+Epoch 93 Loss 2.3776769638061523
+Epoch 94 Loss 2.375394821166992
+Epoch 95 Loss 2.375596046447754
+Epoch 96 Loss 2.373054265975952
+Epoch 97 Loss 2.3736236095428467
+Epoch 98 Loss 2.3708877563476562
+Epoch 99 Loss 2.3716115951538086
+Loss 2.3716115951538086</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_loss(X, y, W1, W2, b):</span>
+<span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#first layer</span></span>
+<span id="cb132-3"><a href="#cb132-3" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> relu(X <span class="op">@</span> W1 <span class="op">+</span> b)</span>
+<span id="cb132-4"><a href="#cb132-4" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb132-5"><a href="#cb132-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># second layer</span></span>
+<span id="cb132-6"><a href="#cb132-6" aria-hidden="true" tabindex="-1"></a>    logits <span class="op">=</span> output <span class="op">@</span> W2</span>
+<span id="cb132-7"><a href="#cb132-7" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> F.cross_entropy(logits, y)</span>
+<span id="cb132-8"><a href="#cb132-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>evaluate_loss(x_valid, y_valid, params1, params2, bias)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(2.3825, grad_fn=&lt;NllLossBackward0&gt;)</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>evaluate_loss(x_test, y_test, params1, params2, bias)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>tensor(2.3918, grad_fn=&lt;NllLossBackward0&gt;)</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
